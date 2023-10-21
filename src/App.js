@@ -1,23 +1,20 @@
-import logo from './logo.svg';
+/* eslint-disable */
+
+import { useState } from 'react';
 import './App.css';
+
+import UserSelectionForm from './components/userSelectionForm';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="text-3xl font-bold underline">
+        얹아가자
+      </h1>
+      <h4 className="text-xl font-bold">
+        앉아서 갈 확률이 높은 칸을 추천합니다
+      </h4>
+      <UserSelectionForm/>
     </div>
   );
 }
