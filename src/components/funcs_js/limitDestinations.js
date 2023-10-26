@@ -45,7 +45,6 @@ function circulatingLine(line, direction, departureStation) {
  * 즉, 분기하는 노선이기떄문에 이 함수 말고 전용 함수를 사용해야함
 */
 function generalLine(stationList, departureStation) {
-    console.log(stationList);
     const index = stationList.indexOf(departureStation);
     const destinationList = stationList.slice(index+1);
     return destinationList;
