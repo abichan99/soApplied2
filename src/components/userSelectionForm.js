@@ -1,7 +1,7 @@
 import React from 'react';
 import { LINES, INFO_EACH_LINE } from './subwayInfo';
 import { limitedDestinationList } from './funcs_js/limitDestinations';
-import { validateOptVal } from './funcs_js/validators';
+import { validateOptVals } from './funcs_js/validators';
 
 // 드롭다운 리스트 선택지 동적생성 시 사용하는 변수들
 export const DROPDOWN_LIST_VALS = {
@@ -9,7 +9,7 @@ export const DROPDOWN_LIST_VALS = {
     line: {label: "select a line", id: "line-list", optInitVal: "호선을 선택"},
     direction: {label: "select a direction", id: "direction-list", optInitVal: "방향을 선택"},
     departureStation: {label: "select a departure station", id: "departure-station-list", optInitVal: "출발역을 선택"},
-    destStation: {label: "select a destination station", id: "destination-station-list", optInitVal: "종착역을 선택"},
+    destStation: {label: "select a destination station", id: "dest-station-list", optInitVal: "종착역을 선택"},
 };
 
 class UserSelectionForm extends React.Component {
@@ -17,7 +17,7 @@ class UserSelectionForm extends React.Component {
         return (
             <div>
                 {/* 사용자 입력란 (template: https://flowbite.com/docs/components/forms/)*/}
-                <form className="inline-flex flex-col">
+                <form className="inline-flex flex-col" method='get' onSubmit={e=>{ajaxAfterValidate(e)}}>
                     {/* 선택된 호선과 방향에 따라 출발역,호선역 선택지를 동적으로 생성
                         출발역에 따라 도착역 선택지를 제한
                         submit시 값을 validate
@@ -30,6 +30,26 @@ class UserSelectionForm extends React.Component {
                 </form>
             </div>
         );
+    }
+}
+function ajaxAfterValidate(e) {
+    e.preventDefault();
+    const optValList = [e.target.children[0].getElementsByTagName("select")[0].value, e.target.children[1].getElementsByTagName("select")[0].value, e.target.children[2].getElementsByTagName("select")[0].value, e.target.children[3].getElementsByTagName("select")[0].value];
+    // 입력치가 default값일때 입력값 미선택으로 간주, 애러
+    const errMsg = ["호선", "방향", "승차역", "하차역"];
+    for (let i = 0; i < optValList.length; i++) {
+        const optVal = optValList[i];
+        if (optVal==="default") {
+            const selectElem = e.target.children[i].getElementsByTagName("select")[0];
+            selectElem.setCustomValidity(errMsg[i] + "을 선택해 주세요");
+            selectElem.reportValidity();
+            return;
+        }
+    }
+    // 입력치 검증
+    if (!validateOptVals(optValList)) {
+        window.alert("다시 선택해 주세요.");
+        return;
     }
 }
 /**
@@ -64,6 +84,7 @@ function DropdownList(props) {
  * @param {string} line LINES안에 포함된 호선명
  */
 function setOptionsByLine(line) {
+    clearValidityMsg();
     const directionSelecElemID = DROPDOWN_LIST_VALS.direction.id;
     // 호선이 선택되지 않앗거나 값이 무효할 시 방향 선택지를 디폴트값만 남겨놓고 삭제
     if (!LINES.includes(line)) {
@@ -80,6 +101,7 @@ function setOptionsByLine(line) {
  * @param {string} direction OPTIONS_EACH_LINE[line].directions에 포함된 방향명(~행)
  */
 function setOptionsByDirection(line, direction) {
+    clearValidityMsg();
     const directionList = INFO_EACH_LINE[line].directions;
     const departureStationSelectElemID = DROPDOWN_LIST_VALS.departureStation.id;
     const destinationStationSelectElemID = DROPDOWN_LIST_VALS.destStation.id;
@@ -96,6 +118,7 @@ function setOptionsByDirection(line, direction) {
     removeExceptDefaultOption([destinationStationSelectElemID]);
 }
 function setOptionsByDepartureStation(line, direction, departureStation) {
+    clearValidityMsg();
     const destinationStationSelectElemID = DROPDOWN_LIST_VALS.destStation.id;
     const stationList = INFO_EACH_LINE[line].stations[direction];
     // 출발역 선택되지 않앗거나 값이 무효할 시 하차역 선택지를 디폴트값만 남겨놓고 삭제
@@ -134,6 +157,14 @@ function createOptionsHTML(selectElemID, optionList) {
         optionsHTML += "<option key="+optVal+" value="+optVal+">"+optVal+"</option>";
     }
     selectElem.innerHTML=optionsHTML;
+}
+function clearValidityMsg() {
+    const selectElems = [document.getElementById(DROPDOWN_LIST_VALS.line.id), document.getElementById(DROPDOWN_LIST_VALS.direction.id), document.getElementById(DROPDOWN_LIST_VALS.departureStation.id), document.getElementById(DROPDOWN_LIST_VALS.destStation.id)];
+    for (let i = 0; i < selectElems.length; i++) {
+        const selectElem = selectElems[i];
+        selectElem.setCustomValidity("");
+        selectElem.reportValidity();
+    }
 }
 
 export default UserSelectionForm;
