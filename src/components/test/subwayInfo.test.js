@@ -7,7 +7,7 @@ test('LINES의 모든 요소가 INFO_EACH_LINE의 키값인지 확인', () => {
 });
 test('호선, 방향에 따른 역 개수 확인', () => {
     // checkNumStations(호선, 방향, 역 개수 기대값)
-    checkNumStations("경의중앙선", "서울역방면", 22);
+    checkNumStations("1호선", "소요산역방면", 99);
 });
 test('INFO_EACH_LINE에 관해, 방향에 따른 역 리스트가 존재하는지 확인', () => {
     for (let i = 0; i < LINES.length; i++) {
@@ -26,7 +26,10 @@ test('INFO_EACH_LINE에 관해, 역 리스트의 마지막 요소와 방향(~방
         for (let i = 0; i < INFO_EACH_LINE[line].directions.length; i++) {
             const direction = INFO_EACH_LINE[line].directions[i];
             const directionStation = direction.slice(0,-3);
-            if (directionStation === "시청(종점)") {
+            if (directionStation === "시청") {
+                const lastElem = INFO_EACH_LINE[line].stations[direction].pop();
+                // eslint-disable-next-line jest/no-conditional-expect
+                expect(lastElem).toBe("시청(종점)");
                 continue;
             }
             const lastElem = INFO_EACH_LINE[line].stations[direction].pop();
@@ -46,4 +49,4 @@ test('INFO_EACH_LINE에 관해, 역 리스트의 마지막 요소와 방향(~방
 function checkNumStations(line, direction, expectedNum) {
     const stationList = INFO_EACH_LINE[line].stations[direction]
     expect(stationList.length).toBe(expectedNum);
-}
+};

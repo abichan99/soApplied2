@@ -2,6 +2,9 @@ import React from 'react';
 import { LINES, INFO_EACH_LINE } from './subwayInfo';
 import { limitedDestinationList } from './funcs_js/limitDestinations';
 import { validateOptVals } from './funcs_js/validators';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers';
 
 // 드롭다운 리스트 선택지 동적생성 시 사용하는 변수들
 export const DROPDOWN_LIST_VALS = {
@@ -21,11 +24,14 @@ class UserSelectionForm extends React.Component {
                     {/* 선택된 호선과 방향에 따라 출발역,호선역 선택지를 동적으로 생성
                         출발역에 따라 도착역 선택지를 제한
                         submit시 값을 validate
-                            1. 선택안된 부분이 있으면 에러*/}
+                    1. 선택안된 부분이 있으면 에러*/}
                     <DropdownList vals={DROPDOWN_LIST_VALS.line} options={LINES} onChangeMode={()=>{setOptionsByLine(document.getElementById(DROPDOWN_LIST_VALS.line.id).value)}}></DropdownList>
                     <DropdownList vals={DROPDOWN_LIST_VALS.direction} options="" onChangeMode={()=>{setOptionsByDirection(document.getElementById(DROPDOWN_LIST_VALS.line.id).value, document.getElementById(DROPDOWN_LIST_VALS.direction.id).value)}}></DropdownList>
                     <DropdownList vals={DROPDOWN_LIST_VALS.departureStation} options="" onChangeMode={()=>{setOptionsByDepartureStation(document.getElementById(DROPDOWN_LIST_VALS.line.id).value, document.getElementById(DROPDOWN_LIST_VALS.direction.id).value, document.getElementById(DROPDOWN_LIST_VALS.departureStation.id).value)}}></DropdownList>
                     <DropdownList vals={DROPDOWN_LIST_VALS.destStation} options="" onChangeMode={()=>{}}></DropdownList>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <TimePicker label="탑승시간을 선택해 주세요" minutesStep={1} id="time-picker"/>
+                    </LocalizationProvider>
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">검색</button>
                 </form>
             </div>
@@ -34,6 +40,7 @@ class UserSelectionForm extends React.Component {
 }
 function ajaxAfterValidate(e) {
     e.preventDefault();
+    console.log(document.getElementById("time-picker"));
     const optValList = [e.target.children[0].getElementsByTagName("select")[0].value, e.target.children[1].getElementsByTagName("select")[0].value, e.target.children[2].getElementsByTagName("select")[0].value, e.target.children[3].getElementsByTagName("select")[0].value];
     // 입력치가 default값일때 입력값 미선택으로 간주, 애러
     const errMsg = ["호선", "방향", "승차역", "하차역"];
