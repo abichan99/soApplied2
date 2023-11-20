@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "gh-pages": "^6.0.0",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "react-loader-spinner": "^5.4.5"
   }
 }

@@ -20,7 +20,7 @@ class UserSelectionForm extends React.Component {
         return (
             <div>
                 {/* 사용자 입력란 (template: https://flowbite.com/docs/components/forms/)*/}
-                <form className="inline-flex flex-col" method='get' onSubmit={e=>{ajaxAfterValidate(e)}}>
+                <form className="inline-flex flex-col" method='get' onSubmit={e=>{ajaxAfterValidation(e)}}>
                     {/* 선택된 호선과 방향에 따라 출발역,호선역 선택지를 동적으로 생성
                         출발역에 따라 도착역 선택지를 제한
                         submit시 값을 validate
@@ -38,7 +38,8 @@ class UserSelectionForm extends React.Component {
         );
     }
 }
-function ajaxAfterValidate(e) {
+// TODO: ajax리퀘스트구현하기
+function ajaxAfterValidation(e) {
     e.preventDefault();
     console.log(document.getElementById("time-picker"));
     const optValList = [e.target.children[0].getElementsByTagName("select")[0].value, e.target.children[1].getElementsByTagName("select")[0].value, e.target.children[2].getElementsByTagName("select")[0].value, e.target.children[3].getElementsByTagName("select")[0].value];
