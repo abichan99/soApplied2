@@ -1,6 +1,4 @@
 /* eslint-disable */
-
-import { useState } from "react";
 import "./App.css";
 
 import UserSelectionForm from "./components/userSelectionForm";
@@ -14,8 +12,16 @@ function App() {
           오늘도 고생하니까, 앉아가자
         </h1>
       </div>
-      <ResultView />
-      <UserSelectionForm />
+      <div className="flex">
+        <div className="w-1/2">
+          {/* 오른쪽에 표시될 컴포넌트 */}
+          <UserSelectionForm />
+        </div>
+        <div className="w-1/2">
+          {/* 왼쪽에 표시될 컴포넌트 */}
+          <ResultView />
+        </div>
+      </div>
     </div>
   );
 }
