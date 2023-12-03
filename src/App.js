@@ -1,10 +1,15 @@
 /* eslint-disable */
 import "./App.css";
+import React, { useState } from "react";
 
 import UserSelectionForm from "./components/userSelectionForm";
 import ResultView from "./components/resultView";
 
 function App() {
+  const [dataToRecommend, setDataToRecommend] = useState("共有する値");
+  const updateSharedVariable = (newValue) => {
+    setDataToRecommend(newValue);
+  };
   return (
     <div className="App">
       <div className="Header flex-wrap justify-start items-center  pt-3 pb-3 mb-5 bg-customText text-slate-100">
@@ -14,12 +19,12 @@ function App() {
       </div>
       <div className="flex">
         <div className="w-1/2">
-          {/* 오른쪽에 표시될 컴포넌트 */}
+          {/* 왼쪽에 표시될 컴포넌트 */}
           <UserSelectionForm />
         </div>
         <div className="w-1/2">
-          {/* 왼쪽에 표시될 컴포넌트 */}
-          <ResultView />
+          {/* 오른쪽에 표시될 컴포넌트 */}
+          <ResultView dataToRecommend={dataToRecommend}/>
         </div>
       </div>
     </div>
