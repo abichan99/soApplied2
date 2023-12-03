@@ -130,6 +130,7 @@ class UserSelectionForm extends React.Component {
   // TODO: ajax리퀘스트구현하기
   ajaxAfterValidation(e) {
     e.preventDefault();
+    this.props.updateData(null);
     const time = this.returnSelectedTime().split(":");
     const [h, m] = [time[0], time[1]];
     const optValList = [
