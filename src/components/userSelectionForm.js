@@ -98,7 +98,9 @@ class UserSelectionForm extends React.Component {
           <DropdownList
             vals={DROPDOWN_LIST_VALS.destStation}
             options=""
-            onChangeMode={() => {}}
+            onChangeMode={() => {
+              clearValidityMsg()
+            }}
           ></DropdownList>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className="py-4">
@@ -130,8 +132,11 @@ class UserSelectionForm extends React.Component {
   // TODO: ajax리퀘스트구현하기
   ajaxAfterValidation(e) {
     e.preventDefault();
-    this.props.updateData(null);
+    this.props.updateData("data updated");
     const time = this.returnSelectedTime().split(":");
+    if(time.length===1) {
+      window.alert("탑승예정시각을 입력해주세요");
+    }
     const [h, m] = [time[0], time[1]];
     const optValList = [
       e.target.children[0].getElementsByTagName("select")[0].value, // 호선 선택값
@@ -166,13 +171,13 @@ class UserSelectionForm extends React.Component {
     const baseUrl = "http://localhost:3000/recommend"
     const url = baseUrl+ "?hour="+dataToSend.hour+"&minute="+dataToSend.minute+
                 "&start="+dataToSend.start+"&end="+dataToSend.end+"&subwayLine="+dataToSend.subwayLine;
-    console.log(url)
     fetch(url, {
       method: "GET",
     })
     // TODO: 에이피아이랑 연결 되면 .then((response) => response)을 .then((response) => response.json())으로 바꾸기
-    .then((response) => response)
+    .then((response) => response.json())
     .then((data) => {
+      console.log(JSON.stringify(data));
       console.log("sfdfsfd");
       // console.log("Data sent successfully:", data);
     })
@@ -245,7 +250,7 @@ function setOptionsByDirection(line, direction) {
   clearValidityMsg();
   const directionList = INFO_EACH_LINE[line].directions;
   const departureStationSelectElemID = DROPDOWN_LIST_VALS.departureStation.id;
-  const destinationStationSelectElemID = DROPDOWN_LIST_VALS.destStation.id;
+  const destStationSelectElemID = DROPDOWN_LIST_VALS.destStation.id;
   // 방향이 선택되지 않앗거나 값이 무효할 시 탑승역 선택지를 디폴트값만 남겨놓고 삭제
   if (directionList === undefined) {
     removeExceptDefaultOption([departureStationSelectElemID]);
@@ -256,22 +261,22 @@ function setOptionsByDirection(line, direction) {
   }
   const stationList = INFO_EACH_LINE[line].stations[direction];
   createOptionsHTML(departureStationSelectElemID, stationList);
-  removeExceptDefaultOption([destinationStationSelectElemID]);
+  removeExceptDefaultOption([destStationSelectElemID]);
 }
 function setOptionsByDepartureStation(line, direction, departureStation) {
   clearValidityMsg();
-  const destinationStationSelectElemID = DROPDOWN_LIST_VALS.destStation.id;
+  const destStationSelectElemID = DROPDOWN_LIST_VALS.destStation.id;
   const stationList = INFO_EACH_LINE[line].stations[direction];
   // 출발역 선택되지 않앗거나 값이 무효할 시 하차역 선택지를 디폴트값만 남겨놓고 삭제
   if (stationList === undefined) {
-    removeExceptDefaultOption([destinationStationSelectElemID]);
+    removeExceptDefaultOption([destStationSelectElemID]);
     return;
   } else if (!stationList.includes(departureStation)) {
-    removeExceptDefaultOption([destinationStationSelectElemID]);
+    removeExceptDefaultOption([destStationSelectElemID]);
     return;
   }
   const list = limitedDestinationList(line, direction, departureStation);
-  createOptionsHTML(destinationStationSelectElemID, list);
+  createOptionsHTML(destStationSelectElemID, list);
 }
 /**
  *
