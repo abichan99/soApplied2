@@ -168,7 +168,7 @@ class UserSelectionForm extends React.Component {
       window.alert("다시 선택해 주세요.");
       return;
     }
-    const baseUrl = "http://localhost:3000/recommend"
+    const baseUrl = "http://localhost:8080/api/recommend"
     const url = baseUrl+ "?hour="+dataToSend.hour+"&minute="+dataToSend.minute+
                 "&start="+dataToSend.start+"&end="+dataToSend.end+"&subwayLine="+dataToSend.subwayLine;
     fetch(url, {
