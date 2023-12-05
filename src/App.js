@@ -20,7 +20,7 @@ function App() {
       <div className="flex">
         <div className="w-1/2">
           {/* 왼쪽에 표시될 컴포넌트 */}
-          <UserSelectionForm updateData={updateDataTo}/>
+          <UserSelectionForm updateDataTo={updateDataTo}/>
         </div>
         <div className="w-1/2">
           {/* 오른쪽에 표시될 컴포넌트 */}
