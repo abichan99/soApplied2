@@ -19,6 +19,9 @@ const getColorClass = (rank) => {
 };
 
 function ResultView({ dataToRecommend }) {
+  if (dataToRecommend===null) {
+    return;
+  }
   return (
     <div>
       <p className="text-2xl font-bold ck mb-2 text-customText dark:text-customText">

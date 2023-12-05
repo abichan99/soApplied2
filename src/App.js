@@ -6,7 +6,7 @@ import UserSelectionForm from "./components/userSelectionForm";
 import ResultView from "./components/resultView";
 
 function App() {
-  const [dataToRecommend, setDataToRecommend] = useState("共有する値");
+  const [dataToRecommend, setDataToRecommend] = useState(null);
   const updateDataTo = (newValue) => {
     setDataToRecommend(newValue);
   };
