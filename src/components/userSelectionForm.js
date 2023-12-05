@@ -132,7 +132,6 @@ class UserSelectionForm extends React.Component {
   // TODO: ajax리퀘스트구현하기
   ajaxAfterValidation(e) {
     e.preventDefault();
-    this.props.updateData("data updated");
     const time = this.returnSelectedTime().split(":");
     if(time.length===1) {
       window.alert("탑승예정시각을 입력해주세요");
@@ -177,9 +176,7 @@ class UserSelectionForm extends React.Component {
     // TODO: 에이피아이랑 연결 되면 .then((response) => response)을 .then((response) => response.json())으로 바꾸기
     .then((response) => response.json())
     .then((data) => {
-      console.log(JSON.stringify(data));
-      console.log("sfdfsfd");
-      // console.log("Data sent successfully:", data);
+      this.props.updateDataTo(JSON.stringify(data));
     })
   }
 }
