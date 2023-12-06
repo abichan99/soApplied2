@@ -2,9 +2,6 @@ import React from "react";
 import { LINES, INFO_EACH_LINE } from "./subwayInfo";
 import { limitedDestinationList } from "./funcs_js/limitDestinations";
 import { validateOptVals } from "./funcs_js/validators";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers";
 
 // 드롭다운 리스트 선택지 동적생성 시 사용하는 변수들
 export const DROPDOWN_LIST_VALS = {
@@ -55,7 +52,7 @@ class UserSelectionForm extends React.Component {
         <form
           className="inline-flex flex-col"
           method="get"
-          onSubmit={(e) => {
+          onSubmit={(e) => { 
             this.ajaxAfterValidation(e);
           }}
         >
@@ -102,25 +99,12 @@ class UserSelectionForm extends React.Component {
               clearValidityMsg()
             }}
           ></DropdownList>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="py-4">
-              <TimePicker
-                ref={this.timePickerRef}
-                value={this.state.selectedTime}
-                onChange={this.updateSelectedTime}
-                label="탑승시간과 가장 가까운 시간을 선택해 주세요"
-                timeSteps={{ hours: 1, minutes: 10, seconds: 5 }}
-                ampm={false}
-                id="time-picker"
-              />
-            </div>
-          </LocalizationProvider>
           <button
             type="submit"
             className="text-white bg-customText hover:customText focus:ring-4
             focus:outline-none focus:ring-blue-300 font-medium rounded-lg
             text-sm px-5 py-2.5 text-center dark:customText
-            dark:hover:customText dark:focus:ring-blue-800"
+            dark:hover:customText dark:focus:ring-blue-800 mt-8"
           >
             {" "}
             검색
@@ -132,11 +116,6 @@ class UserSelectionForm extends React.Component {
   // TODO: ajax리퀘스트구현하기
   ajaxAfterValidation(e) {
     e.preventDefault();
-    const time = this.returnSelectedTime().split(":");
-    if(time.length===1) {
-      window.alert("탑승예정시각을 입력해주세요");
-    }
-    const [h, m] = [time[0], time[1]];
     const optValList = [
       e.target.children[0].getElementsByTagName("select")[0].value, // 호선 선택값
       e.target.children[1].getElementsByTagName("select")[0].value, // 방향 선택값
@@ -144,8 +123,6 @@ class UserSelectionForm extends React.Component {
       e.target.children[3].getElementsByTagName("select")[0].value, // 도착역 선택값
     ];
     const dataToSend = {
-      hour: h,
-      minute: m,
       start: optValList[2] + "역", // 출발역 파라미터 값
       end: optValList[3] + "역", // 도착역 파라미터 값
       subwayLine: optValList[0], // 호선 파라미터 값 
@@ -168,8 +145,7 @@ class UserSelectionForm extends React.Component {
       return;
     }
     const baseUrl = "http://localhost:8080/api/recommend"
-    const url = baseUrl+ "?hour="+dataToSend.hour+"&minute="+dataToSend.minute+
-                "&start="+dataToSend.start+"&end="+dataToSend.end+"&subwayLine="+dataToSend.subwayLine;
+    const url = baseUrl+"?start="+dataToSend.start+"&end="+dataToSend.end+"&subwayLine="+dataToSend.subwayLine;
     fetch(url, {
       method: "GET",
     })

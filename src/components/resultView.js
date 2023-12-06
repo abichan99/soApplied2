@@ -1,4 +1,6 @@
 import React from "react";
+import { dummyData } from "./dummyRecommendationData";
+
 const rank = {
   LOW: "쾌적",
   MIDDLE: "보통",
@@ -19,17 +21,24 @@ const getColorClass = (rank) => {
 };
 
 function ResultView({ dataToRecommend }) {
-  if (dataToRecommend===null) {
-    return;
+  const dataToUse = dataToRecommend;
+
+  if (dataToUse===null) {
+    return (
+      <div>
+      <p className="text-2xl font-bold ck mb-2 text-customText dark:text-customText">
+        추천 역 및 칸
+      </p>
+    </div>
+    );
   }
   return (
     <div>
       <p className="text-2xl font-bold ck mb-2 text-customText dark:text-customText">
         추천 역 및 칸
       </p>
-      {stationComponent(dataToRecommend.seats[0])}
-      {stationComponent(dataToRecommend.seats[1])}
-      {stationComponent(dataToRecommend.seats[2])}
+      {/* 추천 역 개수에 맞춰서 동적으로 생성*/}
+      {dataToUse.seats.map(seat => stationComponent(seat))}
     </div>
   );
 }
