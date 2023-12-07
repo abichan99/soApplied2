@@ -152,7 +152,7 @@ class UserSelectionForm extends React.Component {
     // TODO: 에이피아이랑 연결 되면 .then((response) => response)을 .then((response) => response.json())으로 바꾸기
     .then((response) => response.json())
     .then((data) => {
-      this.props.updateDataTo(JSON.stringify(data));
+      this.props.updateDataTo(data);
     })
   }
 }

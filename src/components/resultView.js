@@ -21,9 +21,9 @@ const getColorClass = (rank) => {
 };
 
 function ResultView({ dataToRecommend }) {
-  const dataToUse = dataToRecommend;
+  const dataToUse = dummyData;
 
-  if (dataToUse===null) {
+  if (dataToUse===null || dataToUse===undefined) {
     return (
       <div>
       <p className="text-2xl font-bold ck mb-2 text-customText dark:text-customText">
@@ -52,9 +52,7 @@ function stationComponent(resultStation) {
       <h1 className="text-xl font-bold ck mb-2 text-customText dark:text-customText">
         {stationName}
       </h1>
-      {carComponent(resultStation.recommendCars[0])}
-      {carComponent(resultStation.recommendCars[1])}
-      {carComponent(resultStation.recommendCars[2])}
+      {resultStation.recommendCars.map(recommendCar => carComponent(recommendCar))}
       <div className="justify-center flex mt-8">
         <div className="flex h-7 w-80 ">
           {[...Array(10).keys()].map((index) => (

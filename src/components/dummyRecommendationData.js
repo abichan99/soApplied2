@@ -129,7 +129,7 @@ export const dummyData = {
                     "rank": "LOW"
                 }
             ],
-            "contestions": [
+            "congestions": [
                 23,
                 14,
                 11,
