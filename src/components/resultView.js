@@ -21,7 +21,7 @@ const getColorClass = (rank) => {
 };
 
 function ResultView({ dataToRecommend }) {
-  const dataToUse = dummyData;
+  const dataToUse = dataToRecommend;
 
   if (dataToUse===null || dataToUse===undefined) {
     return (
