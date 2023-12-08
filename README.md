@@ -3,6 +3,8 @@
 https://github.com/abichan99/soApplied2/issues/1#issue-1955331813
 사용자가 입력한 호선, 방향(~방면), 승차역, 하차역을 기반으로 앉아갈 확률이 높은 칸 추천
 
+![alt text](https://github.com/abichan99/soApplied2/blob/main/so2img1.png?raw=true)
+
 ## 사용 언어 등
  - react
  - tailwind css (css framework)
