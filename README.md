@@ -5,6 +5,7 @@ https://github.com/abichan99/soApplied2/issues/1#issue-1955331813
 
 # 앱 화면
 ![alt text](https://github.com/abichan99/soApplied2/blob/main/so2img1.png?raw=true)
+![alt text](https://github.com/abichan99/soApplied2/blob/main/so2img2.png?raw=true)
 
 ## 사용 언어 등
  - react
